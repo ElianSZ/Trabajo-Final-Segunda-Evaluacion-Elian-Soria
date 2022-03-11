@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    private PlayerController playerController;
+
     public Transform spawnPosition;
     public GameObject enemyPrefab;
 
@@ -13,26 +15,20 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerController = FindObjectOfType<PlayerController>();
         StartCoroutine("spawnRandomTarget");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Invoca repetidamente la función spawnRandomTarget
-        InvokeRepeating("spawnRandomTarget", startDelay, spawnRate);
     }
 
     // Controlador de spawnear los obstáculos
     private IEnumerator spawnRandomTarget()
     {
-        // while (!gameOver)
-        // {
+        while(!playerController.isGameOver)
+        {
         // Cada 3s se spawnea un obstáculo
         yield return new WaitForSeconds(spawnRate);
 
         // Instancia los obstáculos
         Instantiate(enemyPrefab, spawnPosition.transform.position, spawnPosition.transform.rotation);
-        // }
+        }
     }
 }

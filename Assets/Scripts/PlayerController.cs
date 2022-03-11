@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
     public bool isGameOver = false;
     // public GameObject mech;
 
+    private GameManager gameManager;
+
 
     private bool isCoroutineExecuting = false;
 
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void Update()
@@ -145,6 +149,7 @@ public class PlayerController : MonoBehaviour
             // GameObject.Find("Player").transform.localScale = new Vector3(0, 0, 0);
 
             Instantiate(explosionParticleSystem2, shooter1.transform.position, transform.rotation);
+            PersistentData.sharedInstance.kills = gameManager.kills;
             isGameOver = true;
             StartCoroutine(GameOverWaiter());
         }
